@@ -1,8 +1,7 @@
-import os  #  Для тестирования функций
+import os  # Для тестирования функций
 from datetime import datetime
 
-from src.masks import get_mask_card_number
-from src.masks import get_mask_account
+from src.masks import get_mask_account, get_mask_card_number
 
 # Константы путей к файлам для тестирования функций mask_account_card() и get_date()
 PATH_TO_TEST_MASK = os.path.join(os.path.dirname(os.path.dirname(__file__)), "tests", "for_testing_masks.txt")
@@ -36,6 +35,7 @@ def get_date(date_for_change: str) -> str:
     formatted_date = date_datetime.strftime("%d.%m.%Y")
 
     return formatted_date
+
 
 # Блок для тестирования функции mask_account_card()
 with open(PATH_TO_TEST_MASK, "r", encoding="utf-8") as file:
