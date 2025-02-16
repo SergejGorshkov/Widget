@@ -13,14 +13,16 @@ def mask_account_card(data_for_mask: str) -> str:
     Функция маскировки номера карты или счета. Принимает строку с названием и номером карты или счета.
     Возвращает название карты или счета с маской.
     """
-    data_list = data_for_mask.split(" ")
+    data_list = data_for_mask.split(" ")  # Разбиение полученной строки на список
     for element in data_list:
-        if element.isdigit():
-            if len(element) == 16:
-                result = data_for_mask.replace(element, get_mask_card_number(element))
+        if element.isdigit():  # Если элемент списка - число...
+            if len(element) == 16:  # Если 'длина' числа соответствует номеру карты...
+                result = data_for_mask.replace(element, get_mask_card_number(element))  # Маскировка номера карты
+                # и замена номера на его маску в исходных данных
                 break
-            elif len(element) == 20:
-                result = data_for_mask.replace(element, get_mask_account(element))
+            elif len(element) == 20:  # Если 'длина' числа соответствует номеру счета...
+                result = data_for_mask.replace(element, get_mask_account(element))  # Маскировка номера счета
+                # и замена номера на его маску в исходных данных
                 break
         result = f"Ошибка! В данных '{data_for_mask}' номер карты или счета не обнаружен."
 
@@ -38,15 +40,15 @@ def get_date(date_for_change: str) -> str:
 
 
 # Блок для тестирования функции mask_account_card()
-with open(PATH_TO_TEST_MASK, "r", encoding="utf-8") as file:
+with open(PATH_TO_TEST_MASK, "r", encoding="utf-8") as file:  # Чтение файла для тестирования
     numbers_list = file.readlines()  # чтение файла и построчное разделение на элементы списка
-    cleaned_number_list = [number.strip() for number in numbers_list]
+    cleaned_number_list = [number.strip() for number in numbers_list]  # Очистка строк от символов переноса строки
     for number in cleaned_number_list:
         print(mask_account_card(number))
 
 # Блок для тестирования функции get_date()
 with open(PATH_TO_TEST_DATE, "r", encoding="utf-8") as file:
-    numbers_list = file.readlines()  # чтение файла и построчное разделение на элементы списка
+    numbers_list = file.readlines()
     cleaned_number_list = [number.strip() for number in numbers_list]
     for number in cleaned_number_list:
         print(get_date(number))
