@@ -1,11 +1,6 @@
-import os  # Для тестирования функций
 from datetime import datetime
 
 from src.masks import get_mask_account, get_mask_card_number
-
-# Константы путей к файлам для тестирования функций mask_account_card() и get_date()
-# PATH_TO_TEST_MASK = os.path.join(os.path.dirname(os.path.dirname(__file__)), "tests", "for_testing_masks.txt")
-# PATH_TO_TEST_DATE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "tests", "for_testing_date.txt")
 
 
 def mask_account_card(data_for_mask: str) -> str:
@@ -31,8 +26,6 @@ def mask_account_card(data_for_mask: str) -> str:
         raise Exception("Неверный тип исходных данных. Ожидается тип 'str'")
 
 
-
-
 def get_date(date_for_change: str) -> str:
     """
     Функция форматирования даты. Принимает строку с датой в формате ISO 8601 и приводит ее к виду "ДД.ММ.ГГГГ".
@@ -42,19 +35,3 @@ def get_date(date_for_change: str) -> str:
         return date_datetime.strftime("%d.%m.%Y")
     else:
         raise ValueError("Invalid isoformat string")
-
-
-
-# Блок для тестирования функции mask_account_card()
-# with open(PATH_TO_TEST_MASK, "r", encoding="utf-8") as file:  # Чтение файла для тестирования
-#     numbers_list = file.readlines()  # чтение файла и построчное разделение на элементы списка
-#     cleaned_number_list = [number.strip() for number in numbers_list]  # Очистка строк от символов переноса строки
-#     for number in cleaned_number_list:
-#         print(mask_account_card(number))
-#
-# Блок для тестирования функции get_date()
-# with open(PATH_TO_TEST_DATE, "r", encoding="utf-8") as file:
-#     numbers_list = file.readlines()
-#     cleaned_number_list = [number.strip() for number in numbers_list]
-#     for number in cleaned_number_list:
-#         print(get_date(number))
