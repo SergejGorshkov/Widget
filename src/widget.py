@@ -13,18 +13,23 @@ def mask_account_card(data_for_mask: str) -> str:
     Функция маскировки номера карты или счета. Принимает строку с названием и номером карты или счета.
     Возвращает название карты или счета с маской.
     """
-    data_list = data_for_mask.split(" ")  # Разбиение полученной строки на список
-    for element in data_list:
-        if element.isdigit():  # Если элемент списка - число...
-            if len(element) == 16:  # Если 'длина' числа соответствует номеру карты...
-                result = data_for_mask.replace(element, get_mask_card_number(element))  # Маскировка номера карты
-                # и замена номера на его маску в исходных данных
-                break
-            elif len(element) == 20:  # Если 'длина' числа соответствует номеру счета...
-                result = data_for_mask.replace(element, get_mask_account(element))  # Маскировка номера счета
-                # и замена номера на его маску в исходных данных
-                break
-        result = f"Ошибка! В данных '{data_for_mask}' номер карты или счета не обнаружен."
+    if isinstance(data_for_mask, str):  # Проверка на соответствие входных данных типу "str"
+        data_list = data_for_mask.split(" ")  # Разбиение полученной строки на список, разделение - по пробелам
+        for element in data_list:
+
+            if element.isdigit():  # Если элемент списка - целое число, выполняем его проверку...
+                if len(element) == 16:  # Если "длина" числа соответствует номеру карты...
+                    result = data_for_mask.replace(element, get_mask_card_number(element))  # Выполняем маскировку
+                    # номера карты и замену номера на его маску в исходных данных
+                    break
+                elif len(element) == 20 and ("счет" in data_for_mask.lower() or "счёт" in data_for_mask.lower()):
+                    # Если "длина" числа соответствует номеру счета и в исходных данных есть слово "счет" или "счёт"...
+                    result = data_for_mask.replace(element, get_mask_account(element))  # Выполняем маскировку
+                    # номера счета и замену номера на его маску в исходных данных
+                    break
+            result = f"Ошибка! В данных '{data_for_mask}' номер карты или счета не обнаружен или указан неверно."
+    else:
+        raise Exception("Неверный тип исходных данных. Ожидается тип 'str'")
 
     return result
 
@@ -47,8 +52,8 @@ with open(PATH_TO_TEST_MASK, "r", encoding="utf-8") as file:  # Чтение ф�
         print(mask_account_card(number))
 
 # Блок для тестирования функции get_date()
-with open(PATH_TO_TEST_DATE, "r", encoding="utf-8") as file:
-    numbers_list = file.readlines()
-    cleaned_number_list = [number.strip() for number in numbers_list]
-    for number in cleaned_number_list:
-        print(get_date(number))
+# with open(PATH_TO_TEST_DATE, "r", encoding="utf-8") as file:
+#     numbers_list = file.readlines()
+#     cleaned_number_list = [number.strip() for number in numbers_list]
+#     for number in cleaned_number_list:
+#         print(get_date(number))
