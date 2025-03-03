@@ -17,7 +17,7 @@ def mask_account_card(data_for_mask: str) -> str:
                     return data_for_mask.replace(element, get_mask_card_number(element))  # Выполняем маскировку
                     # номера карты и замену номера на его маску в исходных данных
                 elif len(element) == 20 and ("счет" in data_for_mask.lower() or "счёт" in data_for_mask.lower()):
-                    # Если "длина" числа соответствует номеру счета и в исходных данных есть слово "счет" или "счёт"...
+                    # Если "длина" числа соответствует номеру счета и в исходных данных есть слово "счет" или "счёт"
                     return data_for_mask.replace(element, get_mask_account(element))  # Выполняем маскировку
                     # номера счета и замену номера на его маску в исходных данных
 
