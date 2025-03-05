@@ -17,6 +17,8 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.group.dev.dependencies]
 requests = "^2.32.3"
+pytest = "^8.3.4"
+pytest-cov = "^6.0.0"
 
 
 [tool.poetry.group.lint.dependencies]
@@ -29,7 +31,7 @@ isort = "^6.0.0"
 [tool.mypy]
 disallow_untyped_defs = true
 warn_return_any = true
-exclude = 'venv'
+exclude = '(venv|tests)'
 
 
 [tool.black]
