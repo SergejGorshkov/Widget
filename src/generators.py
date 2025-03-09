@@ -1,7 +1,7 @@
-from typing import List, Dict
+from typing import Dict, Generator, List
 
 
-def filter_by_currency(data_of_bank_transactions: List[Dict[str, dict]], currency_code: str) -> List[Dict[str, dict]]:
+def filter_by_currency(data_of_bank_transactions: List[Dict[str, dict]], currency_code: str) -> Generator:
     """Функция фильтрации транзакций по коду валюты.
      Принимает на вход список словарей, представляющих транзакции.
     Возвращает итератор, который поочередно выдает транзакции, где валюта операции соответствует заданной
@@ -9,8 +9,12 @@ def filter_by_currency(data_of_bank_transactions: List[Dict[str, dict]], currenc
     if not data_of_bank_transactions:
         yield "Ошибка! Список транзакций пуст."
     try:
-        filtered_data = list(filter(lambda transaction: transaction["operationAmount"]["currency"]["code"] ==
-                                                        currency_code, data_of_bank_transactions))
+        filtered_data = list(
+            filter(
+                lambda transaction: transaction["operationAmount"]["currency"]["code"] == currency_code,
+                data_of_bank_transactions,
+            )
+        )
         # Фильтрация данных о транзакциях по ключу "code" и заданному в переменной currency_code коду валюты
         if not filtered_data:  # Если в исходных данных не обнаружены транзакции по искомой валюте...
             yield f"Транзакции по валюте {currency_code} не найдены."
@@ -21,15 +25,16 @@ def filter_by_currency(data_of_bank_transactions: List[Dict[str, dict]], currenc
             yield transaction_data
 
 
-def transaction_descriptions(data_of_bank_transactions: List[Dict[str, dict]]) -> str:
+def transaction_descriptions(data_of_bank_transactions: List[Dict[str, dict]]) -> Generator:
     """Функция, которая принимает список словарей с транзакциями и ключу 'description' возвращает описание
     каждой операции по очереди."""
     if not data_of_bank_transactions:
         yield "Ошибка! Список транзакций пуст."
 
     try:
-        description_list = [transaction["description"] for transaction in data_of_bank_transactions
-                            if transaction["description"] != ""]
+        description_list = [
+            transaction["description"] for transaction in data_of_bank_transactions if transaction["description"] != ""
+        ]
         # Создание списка из описаний транзакций по ключу "description". Если нет описания, транзакция игнорируется
 
         if not description_list:  # Если в исходных данных не обнаружены описания транзакций
@@ -42,7 +47,7 @@ def transaction_descriptions(data_of_bank_transactions: List[Dict[str, dict]]) -
             yield description
 
 
-def card_number_generator(start: int, stop: int):
+def card_number_generator(start: int, stop: int) -> list[str]:
     """Функция, которая выдает номера банковских карт в формате XXXX XXXX XXXX XXXX, где X — цифра номера карты.
     Функция может генерировать номера карт в заданном диапазоне от 0000 0000 0000 0001 до 9999 9999 9999 9999.
     Принимает начальное и конечное значения для генерации диапазона номеров."""
@@ -55,6 +60,7 @@ def card_number_generator(start: int, stop: int):
         # Форматирование созданного номера карты в виде четырех блоков по 4 цифры
         number_generator.append(split_number)  # Заполнение списка номеров карт
     return number_generator
+
 
 ##############################################################################################
 # Запуск функции filter_by_currency. Данные для тестирования - см. в conftest.py.
