@@ -76,7 +76,7 @@ def test_sort_by_date_if_data_is_not_list_of_dictionary():
 def test_sort_by_date_if_key_is_not_true_or_false(right_data_for_processing_sort_by_date):
     with pytest.raises(ValueError) as error_info:
         sort_by_date(right_data_for_processing_sort_by_date, sort_key="some string")
-    assert str(error_info.value) == "Invalid value for sort_key"
+    assert str(error_info.value) == "Неверное значение для ключа 'sort_key'. Ожидается значение 'True' или 'False'."
 
 
 def test_sort_by_date_with_key_in_lowercase(right_data_for_processing_sort_by_date):
