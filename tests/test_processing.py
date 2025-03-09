@@ -31,12 +31,12 @@ from src.processing import filter_by_state, sort_by_date
     ],
 )
 def test_filter_by_state(data_of_bank_operations, key_state, expected):
-    """ "Проверка правильности фильтрации списка словарей по заданным ключам"""
+    """Проверка правильности фильтрации списка словарей по заданным ключам"""
     assert filter_by_state(data_of_bank_operations, key_state) == expected
 
 
 def test_filter_by_state_without_key(right_data_for_processing_filter_by_state):
-    """ "Проверка правильности фильтрации списка словарей, если ключ не задан"""
+    """Проверка правильности фильтрации списка словарей, если ключ не задан"""
     assert filter_by_state(right_data_for_processing_filter_by_state) == [
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
         {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
@@ -44,17 +44,17 @@ def test_filter_by_state_without_key(right_data_for_processing_filter_by_state):
 
 
 def test_filter_by_state_with_missing_key(right_data_for_processing_filter_by_state):
-    """ "Проверка правильности фильтрации списка словарей по заданному ключу при его отсутствии в списке словарей"""
+    """Проверка правильности фильтрации списка словарей по заданному ключу при его отсутствии в списке словарей"""
     assert filter_by_state(right_data_for_processing_filter_by_state, key_state="PENDING") == []
 
 
 def test_filter_by_state_with_empty_data():
-    """ "Проверка правильности фильтрации списка словарей при его отсутствии"""
+    """Проверка правильности фильтрации списка словарей при его отсутствии"""
     assert filter_by_state([], key_state="CANCELED") == []
 
 
 def test_filter_by_state_with_key_in_lowercase(right_data_for_processing_filter_by_state):
-    """ "Проверка правильности фильтрации списка словарей по заданному ключу при его написании в нижнем регистре"""
+    """Проверка правильности фильтрации списка словарей по заданному ключу при его написании в нижнем регистре"""
     assert filter_by_state(right_data_for_processing_filter_by_state, key_state="executed") == [
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
         {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
@@ -80,7 +80,7 @@ def test_sort_by_date_if_key_is_not_true_or_false(right_data_for_processing_sort
 
 
 def test_sort_by_date_with_key_in_lowercase(right_data_for_processing_sort_by_date):
-    """ "Проверка правильности фильтрации списка словарей по заданному ключу при его написании в нижнем регистре,
+    """Проверка правильности фильтрации списка словарей по заданному ключу при его написании в нижнем регистре,
     сортировка - по убыванию"""
     assert sort_by_date(right_data_for_processing_sort_by_date, sort_key="true") == [
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
@@ -93,7 +93,7 @@ def test_sort_by_date_with_key_in_lowercase(right_data_for_processing_sort_by_da
 
 
 def test_sort_by_date_with_key_in_uppercase(right_data_for_processing_sort_by_date):
-    """ "Проверка правильности фильтрации списка словарей по заданному ключу при его написании в верхнем регистре,
+    """Проверка правильности фильтрации списка словарей по заданному ключу при его написании в верхнем регистре,
     сортировка - по возрастанию"""
     assert sort_by_date(right_data_for_processing_sort_by_date, sort_key="FALSE") == [
         {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
