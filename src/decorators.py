@@ -24,22 +24,14 @@ def log(filename: str = "") -> Callable[[Callable[..., Any]], Callable[..., Any]
                     f"{start_time}. Called function '{function.__name__}' (unsuccessfully). "
                     f"Inputs: {args}, {kwargs}. Error: {error_info}."
                 )
+                result = None
             if filename:
                 path_to_logfile = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs", filename)
                 with open(path_to_logfile, "a", encoding="UTF-8") as file:
                     file.write(f"{logging_info}\n")
             else:
                 print(logging_info)
-
+            return result
         return wrapper
 
     return decorator
-
-
-# Код для тестирования декоратора
-@log(filename="mylog.txt")
-def my_function(x, y):
-    return x / y
-
-
-my_function(1, 0)
