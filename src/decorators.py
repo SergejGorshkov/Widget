@@ -32,6 +32,7 @@ def log(filename: str = "") -> Callable[[Callable[..., Any]], Callable[..., Any]
             else:
                 print(logging_info)
             return result
+
         return wrapper
 
     return decorator
