@@ -1,5 +1,6 @@
 import json
 
+
 # import os
 # Path_to_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations.json")
 # Путь для тестирования работы функции
@@ -17,10 +18,11 @@ def read_json_file(path_to_file: str) -> list[dict]:
         print("Ошибка декодирования файла.")
     except FileNotFoundError:
         print(f"Ошибка! Файл по адресу {path_to_file} не найден.")
+    if not isinstance(data_json, list):
+        return []
 
     return data_json  # Возврат содержимого JSON-файла или пустого списка в случае, если файл пустой, содержит
     # не-список или не найден
-
 
 #################################################################################################################
 

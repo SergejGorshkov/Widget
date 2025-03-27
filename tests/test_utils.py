@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import mock_open, patch
 
-from utils import read_json_file
+from src.utils import read_json_file
 
 
 class TestReadJsonFile(unittest.TestCase):

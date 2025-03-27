@@ -1,4 +1,4 @@
-from decorators import log
+from src.decorators import log
 
 
 # Тестирование декоратора 'log'

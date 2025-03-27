@@ -2,7 +2,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from external_api import convert_currency
+from src.external_api import convert_currency
 
 
 @pytest.mark.parametrize(

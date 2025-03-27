@@ -34,15 +34,18 @@ def convert_currency(transaction: dict) -> float:
             print(f"Неудачная попытка получить курс валюты {currency}. Возможная причина: {response.reason}.")
             return 0
         response_json = response.json()  # Преобразование данных в JSON-объект
-        transaction_amount = response_json.get("result")  # Извлечение конвертированной в рубли суммы транзакции
+        transaction_amount = response_json.get("result")  # Извлечение из ответа от API конвертированной в рубли
+        # суммы транзакции
 
         return float(transaction_amount)
 
 
 #####################################################################################################
-
 # Ниже - код для тестирования работы функции.
 # Path_to_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations.json")
+## Или можно задать такой путь:
+## local_path = "../data/operations.json"
+## Path_to_file = os.path.abspath(local_path)
 # transactions = read_json_file(Path_to_file)
 # print(transactions)
 # for transaction in transactions:
