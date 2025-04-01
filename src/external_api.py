@@ -43,9 +43,9 @@ def convert_currency(transaction: dict) -> float:
 #####################################################################################################
 # Ниже - код для тестирования работы функции.
 # Path_to_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations.json")
-## Или можно задать такой путь:
-## local_path = "../data/operations.json"
-## Path_to_file = os.path.abspath(local_path)
+# Или можно задать такой путь:
+# local_path = "../data/operations.json"
+# Path_to_file = os.path.abspath(local_path)
 # transactions = read_json_file(Path_to_file)
 # print(transactions)
 # for transaction in transactions:
