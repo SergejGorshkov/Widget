@@ -43,6 +43,7 @@ def test_log_output_to_console_with_error(capsys):
 
     result = my_function_division(1, 0)
     assert not result
-    assert ("Called function 'my_function_division' (unsuccessfully)" and "Error: division by zero"
-            in capsys.readouterr().out
-            )
+    assert (
+        "Called function 'my_function_division' (unsuccessfully)" and "Error: "
+                                                                      "division by zero" in capsys.readouterr().out
+    )
