@@ -40,7 +40,7 @@ def test_external_api_success_if_rub(transaction, expected):
 
 
 def test_external_api_success_if_usd():
-    """Тест на успешную конвертацию валюте по API-запросу"""
+    """Тест на успешную конвертацию валюты по API-запросу"""
     mock_response = Mock()
     mock_response.status_code = 200
     mock_response.json.return_value = {
