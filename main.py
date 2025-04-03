@@ -1,35 +1,58 @@
-# Далее - код остался от предыдущих домашних заданий (получение исходных данных от пользователя через диалог).
-# Удалить перед слиянием с основной веткой в случае его неактуальности.
+import os
 
-# from src.masks import get_mask_card_number, get_mask_account
-#
-# if __name__ == "__main__":
-#     while True:
-#         try:
-#             card_number = int(input("Введите номер карты (16 цифр): ").replace(" ", ""))
-#             # Удаление пробелов, приведение к типу 'int' для проверки наличия нечисловых символов
-#             # через обработку исключений
-#             if len(str(card_number)) != 16:
-#                 raise Exception("Номер карты введен неверно. Количество цифр должно быть 16.")
-#         except ValueError:
-#             print("Ошибка: Введено нечисловое значение.")
-#         except Exception as e:
-#             print(f"Произошла ошибка. {e}")
-#         else:
-#             break
-#
-#     while True:
-#         try:
-#             account_number = int(input("Введите номер счета (20 цифр): ").replace(" ", ""))
-#             # Удаление пробелов, приведение к типу 'int' для проверки наличия нечисловых символов
-#             if len(str(account_number)) != 20:
-#                 raise Exception("Номер счета введен неверно. Количество цифр должно быть 20.")
-#         except ValueError:
-#             print("Ошибка: Введено нечисловое значение.")
-#         except Exception as e:
-#             print(f"Произошла ошибка. {e}")
-#         else:
-#             break
-#
-#     print(f"Маска карты: {get_mask_card_number(str(card_number))}.")
-#     print(f"Маска счета: {get_mask_account(str(account_number))}.")
+from src.processing import filter_by_state
+from src.get_data_from_file import get_data_csv, get_data_excel
+from src.utils import read_json_file
+
+PATH_TO_JSON_FILE = os.path.join(os.path.dirname(__file__), "data", "operations.json")  # Путь к JSON-файлу
+PATH_TO_CSV_FILE = os.path.join(os.path.dirname(__file__), "data", "transactions.csv")  # Путь к CSV-файлу
+PATH_TO_EXCEL_FILE = os.path.join(os.path.dirname(__file__), "data", "transactions_excel.xlsx")  # Путь к Excel-файлу
+
+if __name__ == "__main__":
+    print("Привет! Добро пожаловать в программу работы с банковскими транзакциями.\n"
+          "Для начала работы выберите необходимый пункт меню:\n"
+          "1. Получить информацию о транзакциях из JSON-файла\n"
+          "2. Получить информацию о транзакциях из CSV-файла\n"
+          "3. Получить информацию о транзакциях из XLSX-файла")
+    while True:
+        try:
+            answer = int(input("Введите 1, 2 или 3: ").replace(" ", ""))  # Удаление пробелов,
+            # приведение к типу 'int' для проверки наличия нечисловых символов через обработку исключений
+            if answer not in [1, 2, 3]:
+                print("Ошибка. Введено значение вне указанного диапазона.")
+                continue
+        except ValueError:
+            print("Ошибка: Введено нечисловое значение.")
+        except Exception as error:
+            print(f"Произошла ошибка: {error}")
+        else:
+            break
+
+    selected_file = {1: "JSON", 2: "CSV", 3: "XLSX"}
+    print(f"Для обработки выбран {selected_file[answer]}-файл.")
+
+    if selected_file[answer] == "JSON":
+        transactions = read_json_file(PATH_TO_JSON_FILE)
+    elif selected_file[answer] == "CSV":
+        transactions = get_data_csv(PATH_TO_CSV_FILE)
+    elif selected_file[answer] == "XLSX":
+        transactions = get_data_excel(PATH_TO_EXCEL_FILE)
+
+    # print(transactions) # Для тестирования работы
+
+    print("Введите статус, по которому необходимо выполнить фильтрацию (по умолчанию - 'EXECUTED').")
+    while True:
+        try:
+            answer_key_state = input("Доступные для фильтрации статусы: EXECUTED, CANCELED, PENDING: ").replace(" ", "")
+
+            if answer_key_state.upper() not in ["EXECUTED", "CANCELED", "PENDING"]:
+                print(f"Ошибка. Введено неправильное значение. Статус операции '{answer_key_state}' недоступен.")
+                continue
+        except Exception as error:
+            print(f"Произошла ошибка: {error}")
+        else:
+            break
+    filtered_transactions = filter_by_state(transactions, answer_key_state)
+    # print(filtered_transactions) # Для тестирования работы
+
+
