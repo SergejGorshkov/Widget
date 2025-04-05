@@ -1,6 +1,6 @@
 import pytest
 
-from src.processing import filter_by_state, sort_by_date
+from src.processing import count_operations_by_category, filter_by_state, filter_operations_by_keyword, sort_by_date
 
 
 @pytest.mark.parametrize(
@@ -103,3 +103,44 @@ def test_sort_by_date_with_key_in_uppercase(right_data_for_processing_sort_by_da
         {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
     ]
+
+
+def test_filter_operations_by_keyword_success(transactions_data_for_generators):
+    """Проверка правильности фильтрации списка словарей по заданному ключевому слову"""
+    expected_result = [
+        {
+            "id": 142264268,
+            "state": "EXECUTED",
+            "date": "2019-04-04T23:20:05.206878",
+            "operationAmount": {"amount": "79114.93", "currency": {"name": "USD", "code": "USD"}},
+            "description": "Перевод со счета на счет",
+            "from": "Счет 19708645243227258542",
+            "to": "Счет 75651667383060284188",
+        },
+        {
+            "id": 873106923,
+            "state": "EXECUTED",
+            "date": "2019-03-23T01:09:46.296404",
+            "operationAmount": {"amount": "43318.34", "currency": {"name": "руб.", "code": "RUB"}},
+            "description": "Перевод со счета на счет",
+            "from": "Счет 44812258784861134719",
+            "to": "Счет 74489636417521191160",
+        }]
+    assert filter_operations_by_keyword(transactions_data_for_generators, "счет") == expected_result
+
+
+def test_filter_operations_by_keyword_with_missing_keyword(transactions_data_for_generators):
+    """Проверка правильности фильтрации списка словарей по отсутствующему в описании операций ключевому слову"""
+    assert filter_operations_by_keyword(transactions_data_for_generators, "чтототам") == []
+
+
+def test_count_operations_by_category_success(transactions_data_for_generators):
+    """Проверка правильности фильтрации списка словарей по заданному списку категорий операций для поиска"""
+    expected_result = {'перевод организации': 2, 'перевод со счета на счет': 2}
+    list_for_search = ["Перевод организации", "Перевод со счета на счет"]
+    assert count_operations_by_category(transactions_data_for_generators, list_for_search) == expected_result
+
+
+def test_count_operations_by_category_with_missing_category(transactions_data_for_generators):
+    """Проверка правильности фильтрации списка словарей по отсутствующим категориям операций"""
+    assert count_operations_by_category(transactions_data_for_generators, ["чтототам"]) == {}

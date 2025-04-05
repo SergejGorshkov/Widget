@@ -36,16 +36,20 @@ def test_filter_by_currency(transactions_data_for_generators):
     }
 
 
-def test_filter_by_currency_with_missing_key(transactions_data_for_generators):
+def test_filter_by_currency_with_missing_key(capsys, transactions_data_for_generators):
     """Проверка правильности фильтрации списка словарей, если значение по ключу отсутствует в исходных данных."""
-    eur_transactions = filter_by_currency(transactions_data_for_generators, "EUR")
-    assert next(eur_transactions) == "Транзакции по валюте EUR не найдены."
+    transaction = filter_by_currency(transactions_data_for_generators, "FFF")
+    next(transaction)
+    captured = capsys.readouterr()
+    assert "Транзакции по валюте 'FFF' не найдены.\n" in captured.out
 
 
-def test_filter_by_currency_with_empty_data():
+def test_filter_by_currency_with_empty_data(capsys):
     """Проверка правильности фильтрации списка словарей, если он пустой."""
-    usd_transactions = filter_by_currency([], "USD")
-    assert next(usd_transactions) == "Ошибка! Список транзакций пуст."
+    transaction = filter_by_currency([], "USD")
+    next(transaction)
+    captured = capsys.readouterr()
+    assert "Ошибка! Список транзакций пуст.\n" in captured.out
 
 
 def test_filter_by_currency_without_key_in_data():
@@ -55,7 +59,7 @@ def test_filter_by_currency_without_key_in_data():
             "id": 939719570,
             "state": "EXECUTED",
             "date": "2018-06-30T02:08:58.425572",
-            "operationAmount": {"amount": "9824.07", "currency": {"name": "USD", "cooode": "USD"}},
+            "operationAmount": {"amount": "9824.07", "currency": {"name": "USD"}},
             "description": "Перевод организации",
             "from": "Счет 75106830613657916952",
             "to": "Счет 11776614605963066702",
@@ -64,14 +68,23 @@ def test_filter_by_currency_without_key_in_data():
             "id": 142264333,
             "state": "EXECUTED",
             "date": "2019-04-04T23:20:05.206878",
-            "operationAmount": {"amount": "79114.93", "currency": {"name": "USD", "cooode": "RUB"}},
+            "operationAmount": {"amount": "79114.93", "currency": {"name": "USD", "code": "USD"}},
             "description": "Перевод со счета на счет",
             "from": "Счет 19708645243227258542",
             "to": "Счет 75651667383060284188",
         },
     ]
     usd_transactions = filter_by_currency(transaction, "USD")
-    assert next(usd_transactions) == "Ошибка! Как минимум, в одной из транзакций отсутствует ключ 'code'."
+    assert next(usd_transactions) == {"id": 142264333,
+                                      "state": "EXECUTED",
+                                      "date": "2019-04-04T23:20:05.206878",
+                                      "operationAmount": {"amount": "79114.93",
+                                                          "currency": {"name": "USD",
+                                                                       "code": "USD"}},
+                                      "description": "Перевод со счета на счет",
+                                      "from": "Счет 19708645243227258542",
+                                      "to": "Счет 75651667383060284188",
+                                      }
 
 
 ##########################################################################################################
