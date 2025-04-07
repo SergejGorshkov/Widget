@@ -1,11 +1,6 @@
 import json
 import logging
 
-# import os
-# Path_to_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations.json")
-# Путь для тестирования работы функции
-
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 file_handler = logging.FileHandler("logs/utils.log", "w", encoding="utf-8")
@@ -37,9 +32,3 @@ def read_json_file(path_to_file: str) -> list[dict]:
 
     return data_json  # Возврат содержимого JSON-файла или пустого списка в случае, если файл пустой, содержит
     # не-список или не найден
-
-
-#################################################################################################################
-
-# print(read_json_file(Path_to_file))
-# Для тестирования работы функции

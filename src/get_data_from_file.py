@@ -1,10 +1,4 @@
-# import json
-# import os
 import pandas as pd
-
-# Определение путей к файлам (для отладки)
-# PATH_TO_FILE_CSV = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "transactions.csv")
-# PATH_TO_FILE_EXCEL = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "transactions_excel.xlsx")
 
 
 def get_data_csv(path: str) -> list[dict]:
@@ -50,15 +44,3 @@ def get_data_excel(path: str) -> list[dict]:
     except ValueError as error_info:
         print(error_info)
         return []
-
-
-#################################################################################################
-# Вызов функций для отладки
-# if __name__ == '__main__':
-#     result_csv = get_data_csv(PATH_TO_FILE_CSV)
-#     result_excel = get_data_excel(PATH_TO_FILE_EXCEL)
-#     print(result_csv)
-#
-#     print()
-#
-#     print(result_excel)

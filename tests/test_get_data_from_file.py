@@ -55,7 +55,6 @@ def test_get_data_csv_empty_data():
     assert get_data_csv("some_path_to_file.csv") == []
 
 
-#####################
 def test_get_data_excel_success():
     """Тест на корректное чтение Excel-файла"""
     # Создание Mock для DataFrame
